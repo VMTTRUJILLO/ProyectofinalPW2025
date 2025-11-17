@@ -5,10 +5,12 @@ async function crearPedido() {
         const usuarioId = session.getUsuarioId();
         const datos = { idUsuario: usuarioId };
         
+        console.log('📝 Creando pedido para usuario:', usuarioId);
         const resultado = await post(`${ENDPOINTS.pedidos}/crear`, datos);
+        console.log('✅ Pedido creado:', resultado);
         return resultado;
     } catch (error) {
-        console.error('Error al crear pedido:', error);
+        console.error('❌ Error al crear pedido:', error);
         throw error;
     }
 }
@@ -23,10 +25,12 @@ async function procesarCheckout() {
             idMetodoPago: idMetodoPago
         };
         
+        console.log('💳 Procesando checkout:', datos);
         const resultado = await post(`${ENDPOINTS.pedidos}/checkout`, datos);
+        console.log('✅ Checkout procesado:', resultado);
         return resultado;
     } catch (error) {
-        console.error('Error en checkout:', error);
+        console.error('❌ Error en checkout:', error);
         throw error;
     }
 }
@@ -71,7 +75,7 @@ async function mostrarResumenCheckout() {
                                     <span class="badge bg-secondary">x${detalle.cantidad}</span>
                                 </div>
                                 <div class="col-md-3 text-end">
-                                    <strong>$${formatearPrecio(subtotal)}</strong>
+                                    <strong>${formatearPrecio(subtotal)}</strong>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +84,7 @@ async function mostrarResumenCheckout() {
             </div>
         `;
 
-        totalElement.textContent = `$${formatearPrecio(total)}`;
+        totalElement.textContent = `${formatearPrecio(total)}`;
 
     } catch (error) {
         console.error('Error al mostrar resumen:', error);
@@ -94,11 +98,15 @@ async function finalizarCompra() {
     btnFinalizar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Procesando...';
 
     try {
+        console.log('🛒 Iniciando finalización de compra...');
+        
         // 1. Crear el pedido
-        await crearPedido();
+        const pedido = await crearPedido();
+        console.log('✅ Pedido creado:', pedido);
         
         // 2. Procesar el checkout (esto genera la venta y vacía el carrito)
-        await procesarCheckout();
+        const checkout = await procesarCheckout();
+        console.log('✅ Checkout procesado:', checkout);
         
         // 3. Limpiar el carritoId de la sesión para que se cree uno nuevo
         session.setCarritoId(null);
@@ -107,10 +115,10 @@ async function finalizarCompra() {
         mostrarModalExito();
         
     } catch (error) {
-        console.error('Error al finalizar compra:', error);
+        console.error('❌ Error al finalizar compra:', error);
         mostrarNotificacion('Error al procesar la compra. Intenta nuevamente.', 'error');
         btnFinalizar.disabled = false;
-        btnFinalizar.innerHTML = 'Finalizar Compra';
+        btnFinalizar.innerHTML = '<i class="bi bi-check-circle"></i> Finalizar Compra';
     }
 }
 
