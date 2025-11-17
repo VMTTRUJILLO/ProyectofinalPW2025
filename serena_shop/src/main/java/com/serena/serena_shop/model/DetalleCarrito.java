@@ -1,5 +1,6 @@
 package com.serena.serena_shop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class DetalleCarrito {
 
     @ManyToOne
     @JoinColumn(name = "carrito_id")
+    @JsonIgnoreProperties({"items", "hibernateLazyInitializer", "handler"})
     private Carrito carrito;
 
     @Column(name = "id_producto")
@@ -27,8 +29,8 @@ public class DetalleCarrito {
     @Column(name = "precio_unitario")
     private Integer precioUnitario;
 
-    @Column(name = "subtotal", insertable=false, updatable=false)
-    private Integer subtotal;
+    @Transient
+    private Double subtotal;
 
     // getters & setters
 
@@ -72,11 +74,11 @@ public class DetalleCarrito {
         this.precioUnitario = precioUnitario;
     }
 
-    public Integer getSubtotal() {
+    public Double getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(Integer subtotal) {
+    public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
     }
 }

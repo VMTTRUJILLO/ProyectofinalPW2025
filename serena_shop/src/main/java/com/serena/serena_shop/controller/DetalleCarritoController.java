@@ -3,6 +3,7 @@ package com.serena.serena_shop.controller;
 import com.serena.serena_shop.model.DetalleCarrito;
 import com.serena.serena_shop.repository.DetallecarritoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,11 +14,13 @@ public class DetalleCarritoController {
     @Autowired
     private DetallecarritoRepository detalleCarritoRepo;
 
-    // Crear un detalle de carrito (agregar producto al carrito)
     @PostMapping
     public DetalleCarrito agregarProducto(@RequestBody DetalleCarrito detalle) {
+        System.out.println("✅ Recibido: " + detalle);
         return detalleCarritoRepo.save(detalle);
     }
+
+
 
     // Listar los productos del carrito de un usuario
     @GetMapping("/carrito/{carritoId}")
@@ -37,8 +40,16 @@ public class DetalleCarritoController {
 
     // Eliminar producto del carrito
     @DeleteMapping("/{id}")
-    public String eliminarProducto(@PathVariable Integer id) {
-        detalleCarritoRepo.deleteById(id);
-        return "Producto eliminado del carrito";
+    public ResponseEntity<String> eliminarProducto(@PathVariable Integer id) {
+        try {
+            if (!detalleCarritoRepo.existsById(id)) {
+                return ResponseEntity.notFound().build();
+            }
+            detalleCarritoRepo.deleteById(id);
+            return ResponseEntity.ok("Producto eliminado del carrito");
+        } catch (Exception e) {
+            System.err.println("Error al eliminar: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error al eliminar: " + e.getMessage());
+        }
     }
 }

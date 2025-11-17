@@ -9,10 +9,10 @@ import com.serena.serena_shop.model.Producto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/carrito")
-@CrossOrigin(origins = "*")
 public class CarritoController {
     private final carritoRepository carritoRepo;
     private final DetallecarritoRepository detalleRepo;
@@ -33,6 +33,15 @@ public class CarritoController {
     @GetMapping("/{id}")
     public ResponseEntity<Carrito> obtenerCarrito(@PathVariable Integer id) {
         return carritoRepo.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Buscar carrito por usuario
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<Carrito> obtenerCarritoPorUsuario(@PathVariable Integer usuarioId) {
+        Optional<Carrito> carrito = carritoRepo.findByUsuarioId(usuarioId);
+        return carrito
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

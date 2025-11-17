@@ -1,5 +1,6 @@
 package com.serena.serena_shop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +27,7 @@ public class Carrito {
     private LocalDateTime creadoAt;
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("carrito")  // ← IMPORTANTE: Ignora la referencia circular
     private List<DetalleCarrito> items;
 
     // getters & setters
