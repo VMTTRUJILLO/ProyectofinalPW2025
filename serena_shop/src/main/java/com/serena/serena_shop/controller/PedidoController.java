@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.List;
@@ -41,35 +42,43 @@ public class PedidoController {
     }
 
 
-    // 🟢 Crear pedido desde el carrito
+    // Método 1: Crear pedido - Debe devolver JSON
     @PostMapping("/crear")
     public ResponseEntity<?> crearPedido(@RequestBody Map<String, Integer> body) {
-        Integer idUsuario = body.get("idUsuario");
-        Usuario usuario = usuarioRepo.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        try {
+            Integer idUsuario = body.get("idUsuario");
+            Usuario usuario = usuarioRepo.findById(idUsuario)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Carrito carrito = carritoRepo.findByUsuarioId(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+            Carrito carrito = carritoRepo.findByUsuarioId(idUsuario)
+                    .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
 
-        List<DetalleCarrito> detalles = detalleCarritoRepo.findByCarrito_CarritoId(carrito.getCarritoId());
-        if (detalles.isEmpty()) {
-            throw new RuntimeException("El carrito está vacío");
+            List<DetalleCarrito> detalles = detalleCarritoRepo.findByCarrito_CarritoId(carrito.getCarritoId());
+            if (detalles.isEmpty()) {
+                throw new RuntimeException("El carrito está vacío");
+            }
+
+            double totalpedido = detalles.stream()
+                    .mapToDouble(d -> d.getCantidad() * d.getPrecioUnitario())
+                    .sum();
+
+            Pedido pedido = new Pedido();
+            pedido.setUsuarioId(idUsuario);
+            pedido.setCarritoId(carrito.getCarritoId());
+            pedido.setTotalPedido(totalpedido);
+            pedido.setEstado("PENDIENTE");
+            pedido.setCreadoAt(LocalDateTime.now());
+
+            Pedido pedidoGuardado = pedidoRepo.save(pedido);
+
+            // Devolver el pedido como JSON
+            return ResponseEntity.ok(pedidoGuardado);
+
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
         }
-
-        double totalpedido = detalles.stream()
-                .mapToDouble(d -> d.getCantidad() * d.getPrecioUnitario())
-                .sum();
-
-        Pedido pedido = new Pedido();
-        pedido.setUsuarioId(idUsuario);
-        pedido.setCarritoId(carrito.getCarritoId());
-        pedido.setTotalPedido(totalpedido);
-        pedido.setEstado("PENDIENTE");
-        pedido.setCreadoAt(LocalDateTime.now());
-
-        pedidoRepo.save(pedido);
-
-        return ResponseEntity.ok("Pedido creado correctamente para el usuario ID: " + idUsuario);
     }
 
     // 1️⃣ Listar todos los pedidos
@@ -94,14 +103,27 @@ public class PedidoController {
         return pedidoRepo.findById(id);
     }
 
-    // 3️⃣ Crear un pedido usando el flujo de checkout completo
+    // Método 2: Checkout - Debe devolver JSON
     @PostMapping("/checkout")
-    public String procesarCheckout(@RequestBody Map<String, Object> request) {
-        Integer idUsuario = (Integer) request.get("idUsuario");
-        Integer idMetodoPago = (Integer) request.get("idMetodoPago");
+    public ResponseEntity<?> procesarCheckout(@RequestBody Map<String, Object> request) {
+        try {
+            Integer idUsuario = (Integer) request.get("idUsuario");
+            Integer idMetodoPago = (Integer) request.get("idMetodoPago");
 
-        checkoutService.procesarCheckout(idUsuario, idMetodoPago);
-        return "Compra procesada correctamente para el usuario con ID: " + idUsuario;
+            checkoutService.procesarCheckout(idUsuario, idMetodoPago);
+
+            // Devolver JSON en vez de String
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Compra procesada correctamente");
+            response.put("usuarioId", idUsuario.toString());
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(500).body(error);
+        }
     }
 
     // 4️⃣ Eliminar un pedido (solo si es necesario)

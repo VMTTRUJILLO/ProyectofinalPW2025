@@ -79,4 +79,10 @@ public class Venta {
     public void setIdMetodoPago(Integer idMetodoPago) {
         this.idMetodoPago = idMetodoPago;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        // Establece la hora y fecha del servidor Spring Boot
+        this.fechaVenta = LocalDateTime.now();
+    }
 }
