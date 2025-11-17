@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Serene Shop</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">✨ Serene Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="mb-4">
+                    <i class="bi bi-credit-card"></i> Finalizar Compra
+                </h1>
+
+                <!-- Resumen de Productos -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-bag-check"></i> Resumen de tu Pedido
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="resumen-checkout">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Método de Pago -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-wallet2"></i> Método de Pago
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check p-3 border rounded">
+                            <input class="form-check-input" type="radio" name="metodoPago" id="nequi" value="1" checked>
+                            <label class="form-check-label w-100" for="nequi">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="bi bi-phone-fill text-success fs-2"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Nequi</strong>
+                                        <p class="mb-0 text-muted small">Pago rápido y seguro desde tu celular</p>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="alert alert-info mt-3">
+                            <i class="bi bi-info-circle"></i> 
+                            Recibirás un mensaje en tu Nequi con los detalles del pago una vez confirmes tu pedido.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen y Total -->
+            <div class="col-lg-4">
+                <div class="checkout-summary shadow">
+                    <h4 class="mb-3">Resumen Total</h4>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <span id="subtotal-checkout">$0</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Envío:</span>
+                        <span class="text-success">GRATIS</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <strong class="fs-5">Total:</strong>
+                        <strong class="fs-4 text-primary" id="total-checkout">$0</strong>
+                    </div>
+                    
+                    <button 
+                        class="btn btn-primary w-100 btn-lg mb-3" 
+                        id="btn-finalizar"
+                        onclick="finalizarCompra()">
+                        <i class="bi bi-check-circle"></i> Finalizar Compra
+                    </button>
+                    
+                    <a href="carrito.html" class="btn btn-outline-secondary w-100">
+                        <i class="bi bi-arrow-left"></i> Volver al Carrito
+                    </a>
+
+                    <div class="mt-4 text-center">
+                        <small class="text-muted">
+                            <i class="bi bi-shield-check"></i> Compra 100% segura
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-2">&copy; 2024 Serene Shop - Accesorios para Mujer</p>
+            <p class="mb-0">
+                <a href="#">Instagram</a> | 
+                <a href="#">Facebook</a> | 
+                <a href="#">WhatsApp</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/productos.js"></script>
+    <script src="js/carrito.js"></script>
+    <script src="js/checkout.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await mostrarResumenCheckout();
+            
+            // Actualizar subtotal también
+            const totalText = document.getElementById('total-checkout').textContent;
+            document.getElementById('subtotal-checkout').textContent = totalText;
+        });
+    </script>
+</body>
+</html>

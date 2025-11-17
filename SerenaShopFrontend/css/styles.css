@@ -1,0 +1,151 @@
+/* Estilos personalizados para Serene Shop */
+
+:root {
+    --primary-color: #d4a5a5;
+    --secondary-color: #9b7e7e;
+    --accent-color: #fff5f5;
+    --text-dark: #3d3d3d;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    background-color: #fafafa;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--primary-color) !important;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-link {
+    color: var(--text-dark) !important;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Carrito badge */
+.carrito-badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Cards de productos */
+.producto-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    overflow: hidden;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.producto-card img {
+    height: 250px;
+    object-fit: cover;
+}
+
+.card-title {
+    color: var(--text-dark);
+    font-weight: 600;
+    min-height: 2.5rem;
+}
+
+/* Botones */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* Hero section */
+.hero {
+    background: linear-gradient(135deg, var(--accent-color) 0%, #f0e5e5 100%);
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+}
+
+.hero h1 {
+    color: var(--text-dark);
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    background-color: var(--text-dark);
+    color: white;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--accent-color);
+}
+
+/* Resumen de checkout */
+.checkout-summary {
+    background-color: var(--accent-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    position: sticky;
+    top: 20px;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .producto-card img {
+        height: 200px;
+    }
+    
+    .hero {
+        padding: 2rem 0;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+}

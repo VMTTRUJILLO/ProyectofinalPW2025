@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos - Serena Shop</title>
+    <title>Mis Pedidos - Serene Shop</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -13,7 +13,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html"> Serena Shop</a>
+            <a class="navbar-brand" href="index.html">✨ Serene Shop</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,16 +23,16 @@
                         <a class="nav-link" href="index.html">Inicio</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown">
                             Categorías
                         </a>
                         <ul class="dropdown-menu" id="menu-categorias">
-                            <li><a class="dropdown-item active" href="productos.html">Todos los productos</a></li>
+                            <li><a class="dropdown-item" href="productos.html">Todos los productos</a></li>
                             <li><hr class="dropdown-divider"></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="mis-pedidos.html">Mis Pedidos</a>
+                        <a class="nav-link active" href="mis-pedidos.html">Mis Pedidos</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -54,19 +54,12 @@
 
     <!-- Contenido Principal -->
     <div class="container my-5">
-        <div class="row mb-4">
-            <div class="col-md-8">
-                <h1 id="titulo-categoria">Todos los Productos</h1>
-            </div>
-            <div class="col-md-4">
-                <select class="form-select" id="filtro-categoria" onchange="filtrarPorCategoria()">
-                    <option value="">Todas las categorías</option>
-                </select>
-            </div>
-        </div>
+        <h1 class="mb-4">
+            <i class="bi bi-bag-check"></i> Mis Pedidos
+        </h1>
 
-        <div class="row" id="lista-productos">
-            <div class="col-12 text-center">
+        <div id="pedidos-lista">
+            <div class="text-center">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Cargando...</span>
                 </div>
@@ -92,71 +85,20 @@
     <script src="js/session.js"></script>
     <script src="js/productos.js"></script>
     <script src="js/carrito.js"></script>
+    <script src="js/pedidos.js"></script>
     
     <script>
-        let categoriaActual = null;
-
         function cargarMenuCategorias() {
             const menu = document.getElementById('menu-categorias');
-            const filtro = document.getElementById('filtro-categoria');
-            
             const categoriasHTML = CATEGORIAS.map(cat => 
                 `<li><a class="dropdown-item" href="productos.html?categoria=${cat.id}">${cat.nombre}</a></li>`
             ).join('');
             menu.innerHTML += categoriasHTML;
-
-            const opcionesHTML = CATEGORIAS.map(cat => 
-                `<option value="${cat.id}">${cat.nombre}</option>`
-            ).join('');
-            filtro.innerHTML += opcionesHTML;
-        }
-
-        async function cargarYMostrarProductos() {
-            try {
-                const productos = await cargarProductos(categoriaActual);
-                mostrarProductos(productos, 'lista-productos');
-            } catch (error) {
-                document.getElementById('lista-productos').innerHTML = 
-                    '<div class="col-12"><div class="alert alert-danger">Error al cargar productos</div></div>';
-            }
-        }
-
-        function filtrarPorCategoria() {
-            const select = document.getElementById('filtro-categoria');
-            const categoriaId = select.value ? parseInt(select.value) : null;
-            
-            if (categoriaId) {
-                window.location.href = `productos.html?categoria=${categoriaId}`;
-            } else {
-                window.location.href = 'productos.html';
-            }
-        }
-
-        function obtenerCategoriaDeURL() {
-            const params = new URLSearchParams(window.location.search);
-            const catId = params.get('categoria');
-            return catId ? parseInt(catId) : null;
-        }
-
-        function actualizarTitulo() {
-            const titulo = document.getElementById('titulo-categoria');
-            const filtro = document.getElementById('filtro-categoria');
-            
-            if (categoriaActual) {
-                const nombreCat = obtenerNombreCategoria(categoriaActual);
-                titulo.textContent = nombreCat;
-                filtro.value = categoriaActual;
-            } else {
-                titulo.textContent = 'Todos los Productos';
-                filtro.value = '';
-            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            categoriaActual = obtenerCategoriaDeURL();
             cargarMenuCategorias();
-            actualizarTitulo();
-            cargarYMostrarProductos();
+            mostrarMisPedidos();
             actualizarContadorCarrito();
         });
     </script>
