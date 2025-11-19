@@ -3,21 +3,21 @@
 :root {
     --primary-color: #d4a5a5;
     --secondary-color: #9b7e7e;
-    --accent-color: #fff5f5;
+    --accent-color: #eee8e1;
     --text-dark: #3d3d3d;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-dark);
-    background-color: #fafafa;
+    background-color: #eee8e1;
 }
 
 /* Navbar */
 .navbar-brand {
     font-weight: bold;
     font-size: 1.5rem;
-    color: var(--primary-color) !important;
+    color: var(--text-dark) !important;
 }
 
 .navbar {
@@ -81,7 +81,7 @@ body {
     border-color: var(--secondary-color);
 }
 
-/* Hero section */
+/* Hero section (SE ELIMINÓ DE HTML, PERO SE CONSERVA EL ESTILO POR SI SE USA EN OTRAS PÁGINAS) */
 .hero {
     background: linear-gradient(135deg, var(--accent-color) 0%, #f0e5e5 100%);
     padding: 4rem 0;
@@ -93,7 +93,7 @@ body {
     font-weight: bold;
 }
 
-/* Footer */
+/* Footer (RESTAURADO) */
 footer {
     background-color: var(--text-dark);
     color: white;
@@ -148,4 +148,403 @@ footer a:hover {
     .hero h1 {
         font-size: 2rem;
     }
+}
+
+.top-pre-header .header-link {
+    /* Hereda el color del texto de la barra */
+    color: inherit; 
+    /* Elimina el subrayado que tienen por defecto los enlaces */
+    text-decoration: none; 
+    transition: color 0.3s;
+}
+
+.top-pre-header .header-link:hover {
+    /* Opcional: Oscurece el color al pasar el mouse */
+    color: #b01a55; 
+}
+
+.top-pre-header .header-link i {
+    font-size: 0.9rem;
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+
+/* ==================================== */
+/* === REGLAS AÑADIDAS PARA EL MOCKUP === */
+/* ==================================== */
+
+/* 1. Definir la animación de deslizamiento (movimiento) */
+@keyframes subtle-blink {
+    0%, 100% { 
+        opacity: 1; 
+        text-shadow: 0 0 0px #fff; 
+    }
+    50% { 
+        opacity: 0.8; 
+        text-shadow: 0 0 5px #fff; /* Pequeño brillo blanco */
+    }
+}
+
+/* Barra de ofertas superior */
+.top-offer-bar {
+    background-color: #e91e63; /* Rosa fuerte del mockup */
+    color: white;
+    text-align: center;
+    padding: 9px 0;
+    font-size: 1.1rem;
+  /* Aplicar la animación */
+    animation: subtle-blink 3s infinite ease-in-out; /* Más lento y suave que el pulso */
+}
+
+.band-title-section {
+    /* Centra el contenedor principal */
+    display: flex;
+    justify-content: center;
+    margin: 50px auto !important; /* Espaciado generoso */
+}
+
+.band-title {
+    /* Color de fuente del rosa fuerte (el mismo que la barra de ofertas) */
+    color: var(--text-dark); 
+    
+    /* Fuente grande y pesada */
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+    
+    /* CRÍTICO: Ancho que ocupa la mayor parte de la pantalla (80%) */
+    max-width: 80%; 
+    
+    /* padding horizontal para que no se pegue a los lados */
+    padding: 0 15px; 
+}
+
+@media (max-width: 768px) {
+    .band-title {
+        font-size: 1.5rem; /* Ajuste para móviles */
+        max-width: 95%;
+    }
+}
+
+/* === ESTILOS PARA GALERÍA ALTERNADA === */
+.alternating-gallery .gallery-item img {
+    max-height: 400px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.alternating-gallery .gallery-item img:hover {
+    /* Aumenta el tamaño de la imagen en un 5% (1.05) */
+    transform: scale(1.05);
+    
+    /* Opcional: Agrega una sombra para resaltarla más */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.alternating-gallery .btn-outline-dark {
+    border-color: var(--text-dark);
+    color: var(--text-dark);
+    transition: background-color 0.3s;
+}
+
+.alternating-gallery .btn-outline-dark:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+
+
+
+/* Contenedor del Logo (Reemplaza el Hero) */
+.serena-logo-container {
+    background-color: rgb(238, 232, 225); /* Fondo beige claro del mockup */
+
+}
+
+.serena-logo {
+    text-align: center;
+    padding: 30px 0 50px 0;
+}
+
+.serena-logo img {
+    max-width: 80%; /* Ajusta el tamaño */
+    height: auto;
+    /* Se recomienda añadir la fuente 'Serenn_a20' al CSS si está disponible */
+}
+
+/* Título de Best Sellers */
+.best-sellers-title {
+    font-weight: 500;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de las Categorías (para limitar el ancho como en el mockup) */
+.categorias-grid-mockup-container {
+    max-width: 1340px; 
+    margin: auto;
+}
+
+/* Enlace/Contenedor de la Imagen de Categoría (Efecto apilado) */
+.category-image-link {
+    display:inline-block;
+    position: relative;     
+    overflow: hidden;
+    margin-bottom: 10px; 
+}
+
+.category-image-link img {
+    width: 100%;
+    height: 250px; /* Altura fija para uniformidad */
+    display: block;
+    /* Oscurecer la imagen para que el texto resalte */
+    filter: brightness(80%); 
+    border-radius: 80px;
+}
+
+.category-image-link img:hover{
+    /* Eleva la imagen 8 píxeles hacia arriba (valor negativo) */
+    transform: translateY(-8px);
+    
+    /* Aumenta la sombra para dar más profundidad, como si se "levantara" */
+    box-shadow: 3px 3px 3px #eee8e1; /* Más grande y oscuro */
+}
+
+/* Texto sobre la Imagen de Categoría */
+.category-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.6rem; /* Ajuste para móviles */
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    letter-spacing: 3px;
+}
+
+/* Nueva barra superior: Serenn_a20 */
+.top-pre-header {
+    background-color: #f7e0e5; /* Rosa pálido similar al mockup */
+    padding: 17px 0;
+    color: #e91e63; /* Color del texto (puede ser el rosa de la barra inferior) */
+    font-size: 0.8rem;
+}
+
+.top-pre-header .header-text {
+    /* Si quieres el icono de la cámara, tendrás que usar una imagen o un icono de fuente aquí */
+    padding-left: 20px;
+    position: relative;
+}
+
+.top-pre-header .container {
+    max-width: 90%; /* Ajustar para que se vea más en los bordes */
+    margin: 0 auto;
+}
+
+
+/* Responsive */
+@media (max-width: 600px) {
+    .register-box {
+        padding: 30px 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .oauth-buttons {
+        grid-template-columns: 1fr;
+    }
+
+@media (min-width: 768px) {
+    .category-text {
+        font-size: 2rem;
+    }
+}
+}
+/* ====================================
+   ESTILOS PARA AUTENTICACIÓN (LOGIN Y REGISTRO)
+   ==================================== */
+
+/* Contenedor principal de autenticación */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:#eee8e1;
+    padding: 40px 20px;
+}
+
+/* Card de autenticación */
+.auth-card {
+    max-width: 600px;
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+/* Header del card */
+.auth-header {
+    background: rgb(204, 159, 159);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.auth-header h2 {
+    margin: 0;
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.auth-header p {
+    margin: 5px 0 0 0;
+    opacity: 0.95;
+}
+
+/* Body del card */
+.auth-body {
+    background: white;
+    padding: 30px;
+}
+
+/* Formulario en 2 columnas */
+.form-row-auth {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 576px) {
+    .form-row-auth {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Botones de autenticación */
+.btn-auth {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: none;
+    color: white;
+    padding: 12px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-auth:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(212, 165, 165, 0.4);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    color: white;
+}
+
+.btn-auth:disabled {
+    background: #ccc;
+    transform: none;
+    cursor: not-allowed;
+}
+
+/* Mensaje de error */
+.error-message-auth {
+    background: #fee;
+    color: #c33;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid #c33;
+    display: none;
+}
+
+/* Links de autenticación */
+.auth-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.auth-link:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* Divider */
+.auth-divider {
+    text-align: center;
+    margin: 25px 0;
+    position: relative;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 42%;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.auth-divider::before {
+    left: 0;
+}
+
+.auth-divider::after {
+    right: 0;
+}
+
+.auth-divider span {
+    background: white;
+    padding: 0 15px;
+    color: #999;
+    font-size: 0.9em;
+}
+
+/* Navbar en páginas de autenticación */
+.auth-navbar {
+    background: white !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Botones OAuth deshabilitados */
+.btn-oauth-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsive para autenticación */
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 20px 10px;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.5em;
+    }
+    
+    .auth-body {
+        padding: 20px;
+    }
+}
+
+/* Usuario logueado en navbar */
+.user-dropdown-menu {
+    min-width: 200px;
+}
+
+.user-name-display {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.user-email-display {
+    font-size: 0.85em;
+    color: #666;
 }

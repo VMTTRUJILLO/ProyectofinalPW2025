@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Serena Shop</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-light auth-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Serena Shop</a>
+            <a href="login.html" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+            </a>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2><i class="bi bi-person-plus-fill"></i> Crear Cuenta</h2>
+                <p>Únete a Serena Shop</p>
+            </div>
+            
+            <div class="auth-body">
+                <form id="registerForm">
+                    <div class="form-row-auth">
+                        <div>
+                            <label class="form-label">Primer Nombre *</label>
+                            <input type="text" class="form-control" id="primerNombre" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Segundo Nombre</label>
+                            <input type="text" class="form-control" id="segundoNombre">
+                        </div>
+                    </div>
+
+                    <div class="form-row-auth">
+                        <div>
+                            <label class="form-label">Primer Apellido *</label>
+                            <input type="text" class="form-control" id="primerApellido" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Segundo Apellido</label>
+                            <input type="text" class="form-control" id="segundoApellido">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Correo Electrónico *</label>
+                        <input type="email" class="form-control" id="correo" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña *</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="contrasena" required minlength="6">
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword1">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted">Mínimo 6 caracteres</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Confirmar Contraseña *</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="confirmarContrasena" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword2">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+
+                    <button type="submit" class="btn btn-auth w-100" id="btnRegister">
+                        <i class="bi bi-person-check-fill"></i> Crear Cuenta
+                    </button>
+                </form>
+
+                <hr class="my-4">
+
+                <div class="text-center">
+                    <p class="text-muted mb-2">¿Ya tienes cuenta?</p>
+                    <a href="login.html" class="btn btn-outline-primary">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Mostrar/ocultar contraseña 1
+        document.getElementById('togglePassword1').addEventListener('click', function() {
+            const input = document.getElementById('contrasena');
+            const icon = this.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+
+        // Mostrar/ocultar contraseña 2
+        document.getElementById('togglePassword2').addEventListener('click', function() {
+            const input = document.getElementById('confirmarContrasena');
+            const icon = this.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+
+        // Formulario
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const primerNombre = document.getElementById('primerNombre').value.trim();
+            const segundoNombre = document.getElementById('segundoNombre').value.trim();
+            const primerApellido = document.getElementById('primerApellido').value.trim();
+            const segundoApellido = document.getElementById('segundoApellido').value.trim();
+            const correo = document.getElementById('correo').value.trim();
+            const contrasena = document.getElementById('contrasena').value;
+            const confirmarContrasena = document.getElementById('confirmarContrasena').value;
+
+            if (contrasena !== confirmarContrasena) {
+                mostrarError('Las contraseñas no coinciden');
+                return;
+            }
+
+            if (contrasena.length < 6) {
+                mostrarError('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            const btn = document.getElementById('btnRegister');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Creando cuenta...';
+
+            const result = await register({
+                primerNombre,
+                segundoNombre: segundoNombre || null,
+                primerApellido,
+                segundoApellido: segundoApellido || null,
+                correo,
+                contrasena
+            });
+
+            if (result.success) {
+                alert('¡Cuenta creada exitosamente! 🎉');
+                window.location.href = 'index.html';
+            } else {
+                mostrarError(result.error);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-person-check-fill"></i> Crear Cuenta';
+            }
+        });
+
+        function mostrarError(mensaje) {
+            const div = document.getElementById('errorMessage');
+            div.textContent = mensaje;
+            div.style.display = 'block';
+            setTimeout(() => div.style.display = 'none', 6000);
+        }
+    </script>
+</body>
+</html>

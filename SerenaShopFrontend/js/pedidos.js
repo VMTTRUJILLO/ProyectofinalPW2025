@@ -59,7 +59,7 @@ async function mostrarMisPedidos() {
                                 <h5 class="mb-0">Pedido #${venta.idVenta}</h5>
                             </div>
                             <div class="col-md-6 text-md-end">
-                                <span class="badge bg-success">${venta.estado}</span>
+                                <span class="badge bg-success">${venta.estadoVenta}</span>
                             </div>
                         </div>
                     </div>

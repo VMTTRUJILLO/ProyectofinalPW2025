@@ -7,48 +7,92 @@ class Session {
     }
 
     init() {
-        let session = this.getSession();
-        if (!session) {
-            // Crear sesión temporal
-            session = {
-                usuarioId: USUARIO_TEMPORAL_ID,
-                carritoId: null, // Se obtendrá del backend
-                nombre: 'Usuario Temporal'
-            };
-            this.saveSession(session);
+        // Migrar de sistema temporal a JWT si es necesario
+        this.migrateToJWT();
+        
+        // Verificar si hay sesión JWT
+        if (!this.hasJWTSession()) {
+            console.log('⚠️ No hay sesión JWT activa');
+        } else {
+            console.log('✅ Sesión JWT activa');
         }
     }
 
-    getSession() {
-        const data = localStorage.getItem(this.storageKey);
-        return data ? JSON.parse(data) : null;
+    // Verificar si hay sesión JWT
+    hasJWTSession() {
+        return localStorage.getItem('token') !== null;
     }
 
-    saveSession(session) {
-        localStorage.setItem(this.storageKey, JSON.stringify(session));
+    // Migrar de sistema temporal a JWT
+    migrateToJWT() {
+        const oldSession = localStorage.getItem(this.storageKey);
+        if (oldSession && !this.hasJWTSession()) {
+            // Limpiar sesión temporal antigua
+            localStorage.removeItem(this.storageKey);
+            console.log('🔄 Sesión temporal eliminada, usar JWT');
+        }
     }
 
+    // Obtener ID de usuario desde JWT
     getUsuarioId() {
-        const session = this.getSession();
-        return session ? session.usuarioId : null;
-    }
-
-    getCarritoId() {
-        const session = this.getSession();
-        return session ? session.carritoId : null;
-    }
-
-    setCarritoId(carritoId) {
-        const session = this.getSession();
-        if (session) {
-            session.carritoId = carritoId;
-            this.saveSession(session);
-            console.log('CarritoId guardado en sesión:', carritoId);
+        if (this.hasJWTSession()) {
+            const usuarioId = localStorage.getItem('usuarioId');
+            return usuarioId ? parseInt(usuarioId) : null;
         }
+        return null;
     }
 
+    // Obtener carrito ID (se mantiene por compatibilidad)
+    getCarritoId() {
+        const carritoId = localStorage.getItem('carritoId');
+        return carritoId ? parseInt(carritoId) : null;
+    }
+
+    // Guardar carrito ID
+    setCarritoId(carritoId) {
+        localStorage.setItem('carritoId', carritoId);
+        console.log('✅ CarritoId guardado:', carritoId);
+    }
+
+    // Obtener nombre del usuario
+    getNombre() {
+        if (this.hasJWTSession()) {
+            return localStorage.getItem('nombreCompleto') || 'Usuario';
+        }
+        return 'Invitado';
+    }
+
+    // Obtener primer nombre
+    getPrimerNombre() {
+        const nombreCompleto = this.getNombre();
+        return nombreCompleto.split(' ')[0];
+    }
+
+    // Verificar si está autenticado
+    isAuthenticated() {
+        return this.hasJWTSession();
+    }
+
+    // Limpiar sesión
     clear() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuarioId');
+        localStorage.removeItem('correo');
+        localStorage.removeItem('nombreCompleto');
+        localStorage.removeItem('rol');
+        localStorage.removeItem('carritoId');
         localStorage.removeItem(this.storageKey);
+        console.log('🗑️ Sesión limpiada');
+    }
+
+    // Obtener token JWT
+    getToken() {
+        return localStorage.getItem('token');
+    }
+
+    // Obtener rol del usuario
+    getRol() {
+        return localStorage.getItem('rol') || 'INVITADO';
     }
 }
 
