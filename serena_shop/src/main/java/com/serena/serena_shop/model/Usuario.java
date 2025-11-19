@@ -46,6 +46,7 @@ public class Usuario {
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "id_rol")
     )
+
     private Set<Role> roles;
 
     // getters & setters
@@ -57,4 +58,16 @@ public class Usuario {
     public void setUsuarioId(Integer usuarioId) {
         this.usuarioId = usuarioId;
     }
+
+    // Agregar este método a tu clase Usuario
+    public String getNombreCompleto() {
+        StringBuilder nombre = new StringBuilder();
+        if (primerNombre != null) nombre.append(primerNombre);
+        if (segundoNombre != null) nombre.append(" ").append(segundoNombre);
+        if (primerApellido != null) nombre.append(" ").append(primerApellido);
+        if (segundoApellido != null) nombre.append(" ").append(segundoApellido);
+        return nombre.toString().trim();
+    }
 }
+
+

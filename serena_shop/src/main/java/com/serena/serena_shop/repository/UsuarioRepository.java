@@ -5,5 +5,5 @@ import com.serena.serena_shop.model.Usuario;
 import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
-    Optional<Usuario> findBycorreo(String correo);
+    Optional<Usuario> findByCorreo(String correo);
 }
