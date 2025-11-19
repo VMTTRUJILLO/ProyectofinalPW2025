@@ -27,7 +27,7 @@ public class DetalleCarrito {
     private Integer cantidad;
 
     @Column(name = "precio_unitario")
-    private Integer precioUnitario;
+    private Double precioUnitario;
 
     @Transient
     private Double subtotal;
@@ -66,11 +66,11 @@ public class DetalleCarrito {
         this.cantidad = cantidad;
     }
 
-    public Integer getPrecioUnitario() {
+    public Double getPrecioUnitario() {
         return precioUnitario;
     }
 
-    public void setPrecioUnitario(Integer precioUnitario) {
+    public void setPrecioUnitario(Double precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
 

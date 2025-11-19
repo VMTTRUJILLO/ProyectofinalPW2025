@@ -25,7 +25,7 @@ public class Producto {
     private String imagen;
 
     @Column(name = "precio")
-    private Integer precio;
+    private Double precio;
 
     @Column(name = "stock")
     private Integer stock;
@@ -67,11 +67,11 @@ public class Producto {
         this.imagen = imagen;
     }
 
-    public Integer getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Integer precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 

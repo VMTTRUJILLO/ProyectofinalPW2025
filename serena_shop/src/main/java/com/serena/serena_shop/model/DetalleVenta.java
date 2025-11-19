@@ -24,7 +24,7 @@ public class DetalleVenta {
     private Integer cantidad;
 
     @Column(name = "precio_unitario")
-    private Integer precioUnitario;
+    private Double precioUnitario;
 
     @Column(name = "subtotal", insertable=false, updatable=false)
     private Integer subtotal;
