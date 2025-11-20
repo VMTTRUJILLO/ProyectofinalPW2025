@@ -1,6 +1,15 @@
 const API_ADMIN = 'http://localhost:8086/api/admin';
+const modalProductoElement = document.getElementById('modalProducto');
+
 let productoActual = null;
 let modalProducto = null;
+
+if (modalProductoElement) {
+    // Asegúrate de tener la librería JS de Bootstrap cargada antes que este script
+    modalProducto = new bootstrap.Modal(modalProductoElement); 
+} else {
+    console.error("Elemento 'modalProducto' no encontrado en el DOM.");
+}
 
 // ============== FUNCIÓN AUXILIAR: Headers con Token ==============
 function getAdminHeaders() {
@@ -201,52 +210,11 @@ function abrirModalCrear() {
 }
 
 // ============== EDITAR PRODUCTO ==============
-async function editarProducto(id) {
-    try {
-        const token = localStorage.getItem('token');
-        
-        const response = await fetch(`${API_ADMIN}/productos/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}`);
-        }
-
-        const producto = await response.json();
-        productoActual = producto;
-        
-        if (!modalProducto) {
-            console.error('Modal no inicializado');
-            return;
-        }
-        
-        document.getElementById('modalProductoTitulo').textContent = 'Editar Producto';
-        document.getElementById('productoId').value = producto.idProducto || '';
-        document.getElementById('productoNombre').value = producto.nombreProducto || '';
-        document.getElementById('productoCategoria').value = producto.idCategoria || '';
-        document.getElementById('productoPrecio').value = producto.precio || 0;
-        document.getElementById('productoStock').value = producto.stock || 0;
-        document.getElementById('productoDisponible').value = producto.disponible ? 'true' : 'false';
-
-        // Preview imagen
-        const previewDiv = document.getElementById('preview-imagen');
-        if (previewDiv && producto.imagen) {
-            previewDiv.innerHTML = `
-                <img src="img/${producto.imagen}" class="img-thumbnail" style="max-width: 200px;" 
-                     onerror="this.src='img/default.jpg'">
-                <p class="small text-muted mt-2">Imagen actual</p>
-            `;
-        }
-
-        modalProducto.show();
-
-    } catch (error) {
-        console.error('Error al cargar producto:', error);
-        alert('Error al cargar el producto: ' + error.message);
-    }
+// admin.js (Nueva y simplificada función)
+// ============== REDIRIGIR A PÁGINA DE EDICIÓN ==============
+function editarProducto(idProducto) {
+    // Redirige a la página de edición, pasando el ID como parámetro de URL
+    window.location.href = `editar-producto.html?id=${idProducto}`;
 }
 
 // ============== GUARDAR PRODUCTO ==============

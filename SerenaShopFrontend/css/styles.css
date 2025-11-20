@@ -401,6 +401,58 @@ footer a:hover {
 }
 .btn-volver:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.10); }
 
+/* =======================================
+   ESTILOS ESPECÍFICOS PARA editar-producto.html
+   ======================================= */
+
+/* Estilo para la imagen de previsualización */
+.preview-img {
+    /* Asegura que la imagen no sea gigante y se vea bien */
+    max-width: 100%;
+    max-height: 250px;
+    width: auto;
+    
+    /* Centrar la imagen dentro de su contenedor (si no está en uno flex) */
+    display: block;
+    margin: 0 auto 20px;
+    
+    /* Estilo visual acorde a la marca */
+    border-radius: 12px;
+    object-fit: contain;
+    padding: 10px;
+    background-color: var(--accent-color); /* Fondo beige claro para resaltar */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Asegurar que los nuevos SELECT (Categoría y Disponible) se vean igual que los inputs */
+.admin-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #d7d7d7;
+    background: #fbfbfb;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    transition: box-shadow .12s ease, border-color .12s ease;
+    box-sizing: border-box;
+    height: 44px; /* Para que coincida con la altura de los inputs de texto/número */
+    margin-bottom: 12px; /* Espaciado estándar */
+}
+
+/* focus para los select */
+.admin-form select:focus {
+    outline: none;
+    border-color: rgba(0,123,255,0.85);
+    box-shadow: 0 6px 18px rgba(13,110,253,0.06);
+}
+
+/* Eliminar el estilo específico del select de crear-producto si ya usamos el genérico */
+/* Opcional: Si deseas que el SELECT de edición use el estilo de los inputs y no el estilo antiguo de .form-categoria */
+.form-categoria select {
+    max-width: 100%; /* Asegurar que ocupe todo el ancho del formulario */
+}
+
 /* Contenedor principal */
 .admin-container {
   max-width: 920px;
