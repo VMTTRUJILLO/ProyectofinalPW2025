@@ -1,5 +1,6 @@
 package com.serena.serena_shop.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -18,6 +20,9 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -25,17 +30,29 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Rutas públicas (sin autenticación)
+                        // ✅ RUTAS PÚBLICAS (sin autenticación)
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/productos/**").permitAll()
-                        .requestMatchers("/api/carrito/**").permitAll()
-                        .requestMatchers("/api/detallecarrito/**").permitAll()
-                        .requestMatchers("/api/pedidos/**").permitAll()
-                        .requestMatchers("/api/ventas/**").permitAll()
-                        .requestMatchers("/api/usuarios/**").permitAll()
-                        // Cualquier otra petición debe estar autenticada
+                        .requestMatchers("/api/productos/**").permitAll() // ✅ Ver productos sin login
+                        .requestMatchers("/api/categorias/**").permitAll()
+
+                        // ✅ RUTAS PROTEGIDAS (requieren login)
+                        .requestMatchers("/api/carrito/**").authenticated()
+                        .requestMatchers("/api/detallecarrito/**").authenticated()
+                        .requestMatchers("/api/pedidos/**").authenticated()
+                        .requestMatchers("/api/ventas/**").authenticated()
+
+                        // ✅ RUTAS SOLO PARA ADMIN
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
+                        // ✅ Usuarios requieren autenticación
+                        .requestMatchers("/api/usuarios/**").authenticated()
+
+                        // Cualquier otra petición permite acceso
                         .anyRequest().permitAll()
-                );
+                )
+                // Agregar el filtro JWT
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
