@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.serena.serena_shop.repository.*;
 import com.serena.serena_shop.model.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -38,7 +40,7 @@ public class CheckoutService {
                     Carrito carrito = carritoRepo.findByUsuarioId(idUsuario)
                             .orElseThrow(() -> new RuntimeException("El usuario no tiene un carrito activo."));
 
-                    List<DetalleCarrito> items = detalleCarritoRepo.findByCarrito_CarritoId(carrito.getCarritoId());
+                    List<DetalleCarrito> items = detalleCarritoRepo.findByIdCarrito(carrito.getCarritoId());
                     if (items.isEmpty()) throw new RuntimeException("El carrito está vacío.");
 
                     // Calcular total del pedido
@@ -52,7 +54,7 @@ public class CheckoutService {
                     nuevoPedido.setCarritoId(carrito.getCarritoId());
                     nuevoPedido.setEstado("PENDIENTE");
                     nuevoPedido.setTotalPedido( totalPedido);
-                    nuevoPedido.setCreadoAt(java.time.LocalDateTime.now());
+                    nuevoPedido.setCreadoAt(LocalDateTime.now());
 
                     return pedidoRepo.save(nuevoPedido);
                 });
@@ -68,7 +70,7 @@ public class CheckoutService {
                 throw new RuntimeException("Pedido no pendiente");
             }
 
-            List<DetalleCarrito> items = detalleCarritoRepo.findByCarrito_CarritoId(pedido.getCarritoId());
+            List<DetalleCarrito> items = detalleCarritoRepo.findByIdCarrito(pedido.getCarritoId());
             if (items.isEmpty()) throw new RuntimeException("Carrito vacío");
 
             // validar y decrementar stock con bloqueo

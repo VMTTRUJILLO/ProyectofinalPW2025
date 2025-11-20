@@ -1,23 +1,83 @@
 package com.serena.serena_shop.controller;
 
+import com.serena.serena_shop.model.Carrito;
 import com.serena.serena_shop.model.DetalleCarrito;
+import com.serena.serena_shop.model.Producto;
 import com.serena.serena_shop.repository.DetallecarritoRepository;
+import com.serena.serena_shop.repository.ProductoRepository;
+import com.serena.serena_shop.repository.carritoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/detallecarrito")
 public class DetalleCarritoController {
     @Autowired
     private DetallecarritoRepository detalleCarritoRepo;
+    @Autowired
+    private carritoRepository carritoRepo;
+
+
+
+    @Autowired
+    private DetallecarritoRepository detalleCarritoRepository;
+
+    @Autowired
+    private carritoRepository carritoRepository;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @PostMapping
-    public DetalleCarrito agregarProducto(@RequestBody DetalleCarrito detalle) {
-        System.out.println("✅ Recibido: " + detalle);
-        return detalleCarritoRepo.save(detalle);
+    public ResponseEntity<?> agregarDetalle(@RequestBody Map<String, Object> body) {
+
+        try {
+            // === 1. OBTENER CARRITO ID ===
+            Map<String, Object> carritoMap = (Map<String, Object>) body.get("carrito");
+            Integer carritoId = (Integer) carritoMap.get("carritoId");
+
+            // === 2. OBTENER PRODUCTO ID ===
+            Integer idProducto = (Integer) body.get("idProducto");
+
+            // === 3. OBTENER CANTIDAD ===
+            Integer cantidad = (Integer) body.get("cantidad");
+
+            // === 4. OBTENER PRECIO UNITARIO ===
+            Double precioUnitario = Double.valueOf(body.get("precioUnitario").toString());
+
+            // === 5. VALIDACIONES ===
+            Carrito carrito = carritoRepository.findById(carritoId)
+                    .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+
+            Producto producto = productoRepository.findById(idProducto)
+                    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+            if (producto.getStock() < cantidad) {
+                return ResponseEntity.badRequest().body("Stock insuficiente");
+            }
+
+            // === 6. CREAR DETALLE ===
+            DetalleCarrito detalle = new DetalleCarrito();
+            detalle.setCarrito(carrito);
+            detalle.setIdProducto(idProducto);
+            detalle.setCantidad(cantidad);
+            detalle.setPrecioUnitario(precioUnitario);
+
+            // === 7. GUARDAR ===
+            detalleCarritoRepository.save(detalle);
+
+            return ResponseEntity.ok(detalle);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .status(500)
+                    .body("Error al agregar producto al carrito: " + e.getMessage());
+        }
     }
 
 
@@ -25,7 +85,7 @@ public class DetalleCarritoController {
     // Listar los productos del carrito de un usuario
     @GetMapping("/carrito/{carritoId}")
     public List<DetalleCarrito> listarPorCarrito(@PathVariable Integer carritoId) {
-        return detalleCarritoRepo.findByCarrito_CarritoId(carritoId);
+        return detalleCarritoRepo.findByIdCarrito(carritoId);
     }
 
     // Actualizar cantidad de un producto en el carrito

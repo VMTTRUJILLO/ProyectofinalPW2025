@@ -53,7 +53,7 @@ public class PedidoController {
             Carrito carrito = carritoRepo.findByUsuarioId(idUsuario)
                     .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
 
-            List<DetalleCarrito> detalles = detalleCarritoRepo.findByCarrito_CarritoId(carrito.getCarritoId());
+            List<DetalleCarrito> detalles = detalleCarritoRepo.findByIdCarrito(carrito.getCarritoId());
             if (detalles.isEmpty()) {
                 throw new RuntimeException("El carrito está vacío");
             }
