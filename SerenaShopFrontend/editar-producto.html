@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Producto - Admin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="header">
+        <h1>Panel Admin - Editar Producto</h1>
+        <a href="admin.html" class="btn-volver">Volver</a>
+    </header>
+
+    <main class="admin-container">
+
+        <form id="editarProductoForm" class="admin-form">
+            <h2>Editar Producto</h2>
+
+            <img id="preview" class="preview-img" alt="Preview">
+
+            <label>Nombre:</label>
+            <input type="text" id="nombre" required>
+
+            <label>Descripción:</label>
+            <textarea id="descripcion" required></textarea>
+
+            <label>Precio:</label>
+            <input type="number" id="precio" step="0.01" required>
+
+            <label>Stock:</label>
+            <input type="number" id="stock" required>
+
+            <label>Nombre archivo imagen:</label>
+            <input type="text" id="imagen" required>
+
+            <button type="submit" class="btn-primary">Guardar Cambios</button>
+        </form>
+
+    </main>
+
+    <script type="module">
+        import * as api from "./js/api.js";
+
+        // Obtener ID desde parámetros de URL
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        if (!id) {
+            alert("No se recibió ID del producto");
+            window.location.href = "admin.html";
+        }
+
+        const nombreEl = document.getElementById("nombre");
+        const descripcionEl = document.getElementById("descripcion");
+        const precioEl = document.getElementById("precio");
+        const stockEl = document.getElementById("stock");
+        const imagenEl = document.getElementById("imagen");
+        const preview = document.getElementById("preview");
+
+        async function cargarProducto() {
+            const producto = await api.getProductoById(id);
+
+            nombreEl.value = producto.nombre;
+            descripcionEl.value = producto.descripcion;
+            precioEl.value = producto.precio;
+            stockEl.value = producto.stock;
+            imagenEl.value = producto.imagen;
+
+            preview.src = `/img/${producto.imagen}`;
+        }
+
+        cargarProducto();
+
+        document.getElementById("editarProductoForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const actualizado = {
+                id: parseInt(id),
+                nombre: nombreEl.value,
+                descripcion: descripcionEl.value,
+                precio: parseFloat(precioEl.value),
+                stock: parseInt(stockEl.value),
+                imagen: imagenEl.value
+            };
+
+            try {
+                await api.updateProducto(actualizado);
+                alert("Cambios guardados");
+                window.location.href = "admin.html";
+            } catch (error) {
+                console.error(error);
+                alert("Error actualizando producto");
+            }
+        });
+
+        // Actualización en vivo de la imagen
+        imagenEl.addEventListener("input", () => {
+            preview.src = `/img/${imagenEl.value}`;
+        });
+    </script>
+
+</body>
+</html>

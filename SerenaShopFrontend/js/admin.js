@@ -428,6 +428,7 @@ function formatearFecha(fecha) {
     return new Date(fecha).toLocaleString('es-CO');
 }
 
+
 // Preview de imagen
 document.addEventListener('DOMContentLoaded', function() {
     const inputImagen = document.getElementById('productoImagen');

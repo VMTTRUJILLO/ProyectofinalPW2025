@@ -30,7 +30,7 @@ async function get(url) {
 
 async function post(url, data) {
     try {
-        console.log('POST:', url, 'DATA:', data);
+        console.log('POST:', url, data);
 
         const response = await fetch(url, {
             method: 'POST',
@@ -42,18 +42,16 @@ async function post(url, data) {
             body: JSON.stringify(data)
         });
 
-        console.log('Response status:', response.status);
+        const text = await response.text();
 
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Error response:', errorText);
-            throw new Error(`Error ${response.status}: ${errorText}`);
+            throw new Error(`Error ${response.status}: ${text}`);
         }
 
-        return await response.json();
+        return text ? JSON.parse(text) : {};
 
     } catch (error) {
-        console.error('Error en POST:', error);
+        console.error('❌ Error en POST:', error);
         throw error;
     }
 }
@@ -72,11 +70,16 @@ async function put(url, data) {
             body: JSON.stringify(data)
         });
 
-        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-        return await response.json();
+        const text = await response.text();
+
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${text}`);
+        }
+
+        return text ? JSON.parse(text) : {};
 
     } catch (error) {
-        console.error('Error en PUT:', error);
+        console.error('❌ Error en PUT:', error);
         throw error;
     }
 }

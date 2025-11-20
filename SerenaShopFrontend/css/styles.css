@@ -366,6 +366,165 @@ footer a:hover {
     }
 }
 }
+
+/* ==========================
+   estilos para crear-producto.html
+   ========================== */
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  background: linear-gradient(90deg, rgba(212,165,165,0.06), rgba(155,126,126,0.03));
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  margin-bottom: 24px;
+}
+.header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+.btn-volver {
+  display: inline-block;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn-volver:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.10); }
+
+/* Contenedor principal */
+.admin-container {
+  max-width: 920px;
+  margin: 0 auto 60px;
+  padding: 22px;
+}
+
+/* Formulario */
+.admin-form {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+.admin-form h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+  color: var(--text-dark);
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+/* Labels e inputs (se aplican por id también) */
+.admin-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: rgba(0,0,0,0.75);
+}
+.admin-form input[type="text"],
+.admin-form input[type="number"],
+.admin-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d7d7d7;
+  background: #fbfbfb;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  transition: box-shadow .12s ease, border-color .12s ease;
+  box-sizing: border-box;
+}
+.admin-form textarea { min-height: 120px; resize: vertical; }
+
+/* focus */
+.admin-form input:focus,
+.admin-form textarea:focus {
+  outline: none;
+  border-color: rgba(0,123,255,0.85);
+  box-shadow: 0 6px 18px rgba(13,110,253,0.06);
+}
+
+/* Espaciado entre campos */
+.admin-form label + input,
+.admin-form label + textarea,
+.admin-form textarea + label,
+.admin-form input + label {
+  margin-bottom: 12px;
+}
+.admin-form .form-row {
+  display: flex;
+  gap: 12px;
+}
+.admin-form .form-row .col {
+  flex: 1 1 0;
+}
+
+/* Botón principal (usa tus variables) */
+.admin-form .btn-primary {
+  display: inline-block;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.admin-form .btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(155,126,126,0.12);
+}
+
+/* IDs concretos (por si quieres reglas puntuales) */
+#nombre, #precio, #stock, #imagen {
+  height: 44px;
+  line-height: 1.2;
+}
+#descripcion { padding: 12px; }
+
+/* Placeholder más tenue */
+.admin-form ::placeholder { color: rgba(0,0,0,0.35); }
+
+/* Validaciones visuales */
+.admin-form input:invalid, .admin-form textarea:invalid {
+  border-color: #e06a6a;
+}
+
+/* Layout responsive: apilar en móvil */
+@media (max-width: 768px) {
+  .admin-container { padding: 12px; }
+  .admin-form { padding: 16px; }
+  .admin-form .form-row { flex-direction: column; }
+  .header { padding: 12px; }
+}
+
+/* Pequeños toques para integración visual con admin panel */
+.producto-img-preview { max-width: 120px; max-height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; }
+
+/* Mensajes de ayuda / error (opcionales) */
+.form-help {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 6px;
+}
+.form-error {
+  color: #b00020;
+  font-weight: 600;
+  margin-top: 6px;
+}
 /* ====================================
    ESTILOS PARA AUTENTICACIÓN (LOGIN Y REGISTRO)
    ==================================== */
@@ -548,3 +707,4 @@ footer a:hover {
     font-size: 0.85em;
     color: #666;
 }
+
