@@ -98,18 +98,21 @@ public class DetalleCarritoController {
         return detalleCarritoRepo.save(existente);
     }
 
-    // Eliminar producto del carrito
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarProducto(@PathVariable Integer id) {
-        try {
-            if (!detalleCarritoRepo.existsById(id)) {
-                return ResponseEntity.notFound().build();
-            }
-            detalleCarritoRepo.deleteById(id);
-            return ResponseEntity.ok("Producto eliminado del carrito");
-        } catch (Exception e) {
-            System.err.println("Error al eliminar: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error al eliminar: " + e.getMessage());
+    public ResponseEntity<?> eliminarDetalle(@PathVariable Integer id) {
+
+        if (!detalleCarritoRepository.existsById(id)) {
+            return ResponseEntity.status(404).body(Map.of(
+                    "success", false,
+                    "message", "El detalle no existe"
+            ));
         }
+
+        detalleCarritoRepository.deleteById(id);
+
+        return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "Producto eliminado del carrito"
+        ));
     }
 }
