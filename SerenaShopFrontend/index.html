@@ -58,24 +58,33 @@
         </a>
     </li>
     
-    <!-- Usuario Logueado / Login -->
-    <li class="nav-item dropdown" id="userDropdown" style="display: none;">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle fs-5"></i>
-            <span id="userNameDisplay"></span>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
-            <li>
-                <div class="px-3 py-2">
-                    <div class="user-name-display" id="fullNameDisplay"></div>
-                    <div class="user-email-display" id="emailDisplay"></div>
-                </div>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="mis-pedidos.html"><i class="bi bi-bag-check"></i> Mis Pedidos</a></li>
-            <li><a class="dropdown-item" href="#" onclick="logout(); return false;"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
-        </ul>
-    </li>
+   <!-- Usuario Logueado / Login -->
+<li class="nav-item dropdown" id="userDropdown" style="display: none;">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+        <i class="bi bi-person-circle fs-5"></i>
+        <span id="userNameDisplay"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
+        <li>
+            <div class="px-3 py-2">
+                <div class="user-name-display" id="fullNameDisplay"></div>
+                <div class="user-email-display" id="emailDisplay"></div>
+            </div>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        
+        <!-- ✅ BOTÓN PANEL ADMIN (solo para admins) -->
+        <li id="adminPanelLink" style="display: none;">
+            <a class="dropdown-item" href="admin.html">
+                <i class="bi bi-speedometer2"></i> Panel Admin
+            </a>
+        </li>
+        <li id="adminDivider" style="display: none;"><hr class="dropdown-divider"></li>
+        
+        <li><a class="dropdown-item" href="mis-pedidos.html"><i class="bi bi-bag-check"></i> Mis Pedidos</a></li>
+        <li><a class="dropdown-item" href="#" onclick="logout(); return false;"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+    </ul>
+</li>
     
     <li class="nav-item" id="loginLink">
         <a class="nav-link" href="login.html" title="Iniciar Sesión">
@@ -296,7 +305,7 @@
     </script>
     <script src="js/auth.js"></script>
 <script>
-    // Actualizar navbar según estado de autenticación
+     // Actualizar navbar según estado de autenticación
     document.addEventListener('DOMContentLoaded', function() {
         if (isAuthenticated()) {
             // Usuario logueado
@@ -306,6 +315,12 @@
             document.getElementById('emailDisplay').textContent = userData.correo;
             document.getElementById('userDropdown').style.display = 'block';
             document.getElementById('loginLink').style.display = 'none';
+            
+            // ✅ MOSTRAR PANEL ADMIN SI ES ADMIN
+            if (userData.rol === 'ADMIN') {
+                document.getElementById('adminPanelLink').style.display = 'block';
+                document.getElementById('adminDivider').style.display = 'block';
+            }
         } else {
             // Usuario no logueado
             document.getElementById('userDropdown').style.display = 'none';
