@@ -117,5 +117,11 @@ async function del(url) {
 // Crear producto (USANDO TU MISMO POST)
  const api = {
     createProducto: (producto) => post(`${ENDPOINTS.productos}`, producto),
-    getProductos: () => get(ENDPOINTS.productos)
+    getProductos: () => get(ENDPOINTS.productos),
+
+    // ⭐ Asegúrate de que esta función exista:
+    getProductoById: (id) => get(`${ENDPOINTS.productos}/${id}`),
+    
+    // ⭐ Asegúrate de que esta función exista:
+    updateProducto: (producto) => put(`${ENDPOINTS.productos}/${producto.id}`, producto)
 };
