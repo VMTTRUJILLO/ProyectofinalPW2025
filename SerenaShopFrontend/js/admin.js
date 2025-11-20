@@ -188,7 +188,7 @@ async function cargarProductosAdmin() {
 // ============== CREAR PRODUCTO ==============
 function abrirModalCrear() {
     if (!modalProducto) {
-        console.error('Modal no inicializado');
+        console.error('Modal no inicializado'); 
         return;
     }
     
