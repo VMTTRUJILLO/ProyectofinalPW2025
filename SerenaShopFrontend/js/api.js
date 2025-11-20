@@ -1,5 +1,8 @@
 // Funciones genéricas para llamadas HTTP al backend
 
+
+
+
 function getAuthHeaders() {
     const token = localStorage.getItem('token');
     return token
@@ -28,7 +31,7 @@ async function get(url) {
     }
 }
 
-async function post(url, data) {
+ async function post(url, data) {
     try {
         console.log('POST:', url, data);
 
@@ -111,3 +114,8 @@ async function del(url) {
         throw error;
     }
 }
+// Crear producto (USANDO TU MISMO POST)
+ const api = {
+    createProducto: (producto) => post(`${ENDPOINTS.productos}`, producto),
+    getProductos: () => get(ENDPOINTS.productos)
+};

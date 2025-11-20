@@ -678,6 +678,55 @@ footer a:hover {
     cursor: not-allowed;
 }
 
+/* 🔹 Contenedor general del campo categoría */
+.form-categoria {
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 🔹 Estilo del label */
+.form-categoria label {
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+/* 🔹 Estilo del select */
+.form-categoria select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+
+    background-color: #fff;
+
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+
+    /* evita que quede gigante */
+    max-width: 350px;
+}
+
+/* 🔹 Hover */
+.form-categoria select:hover {
+    border-color: #999;
+}
+
+/* 🔹 Focus del select */
+.form-categoria select:focus {
+    border-color: #c61f88;   /* color rosado elegante */
+    box-shadow: 0 0 4px rgba(198, 31, 136, 0.4);
+}
+
+/* 🔹 Opciones del select */
+.form-categoria option {
+    padding: 8px;
+    font-size: 15px;
+}
+
 /* Responsive para autenticación */
 @media (max-width: 768px) {
     .auth-container {

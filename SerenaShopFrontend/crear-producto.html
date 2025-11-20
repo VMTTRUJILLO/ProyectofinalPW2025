@@ -31,26 +31,55 @@
             <label>Nombre del archivo de imagen:</label>
             <input type="text" id="imagen" placeholder="producto1.jpg" required>
 
+        <div class="form-categoria">
+    <label>Categoría:</label>
+<select id="categoria" required>
+    <option value="1">Aretes</option>
+    <option value="2">Earcuff</option>
+    <option value="3">Pulseras</option>
+    <option value="4">Cadenas</option>
+    <option value="5">Chocker</option>
+    <option value="6">Tobillera</option>
+    <option value="7">Anillos</option>
+</select>
+
+</div>
+
             <button type="submit" class="btn-primary">Crear Producto</button>
         </form>
 
     </main>
 
-    <script type="module">
-        import * as api from "./js/api.js";
+    <script src="./js/config.js"></script>
+   <script src="./js/api.js"></script>
 
-        document.getElementById("crearProductoForm").addEventListener("submit", async (e) => {
+    <script>
+        // No necesitas la línea "import * as api..." porque 'api' ya está definido.
+        
+        const crearProductoForm = document.getElementById("crearProductoForm");
+        
+        // Obtenemos las referencias a los inputs dentro del evento submit para asegurar los valores más recientes.
+
+        crearProductoForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
+            // Capturar los valores *dentro* del listener para asegurar que sean los actuales
+            const nombreInput = document.getElementById("nombre");
+            const precioInput = document.getElementById("precio");
+            const categoriaSelect = document.getElementById("categoria");
+            const stockInput = document.getElementById("stock");
+            const imagenInput = document.getElementById("imagen");
+
             const nuevo = {
-                nombre: nombre.value,
-                descripcion: descripcion.value,
-                precio: parseFloat(precio.value),
-                stock: parseInt(stock.value),
-                imagen: imagen.value, // SOLO nombre del archivo
+                idCategoria: parseInt(categoriaSelect.value), // Usa categoriaSelect
+                nombreProducto: nombreInput.value,
+                imagen: imagenInput.value,
+                precio: parseFloat(precioInput.value),
+                stock: parseInt(stockInput.value)
             };
 
             try {
+                // Ahora, 'api' ya existe porque api.js se cargó antes
                 await api.createProducto(nuevo);
                 alert("Producto creado exitosamente");
                 window.location.href = "admin.html";
