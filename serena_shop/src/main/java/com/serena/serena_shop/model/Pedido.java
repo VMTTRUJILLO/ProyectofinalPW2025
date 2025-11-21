@@ -15,8 +15,12 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPedido;
 
-    @Column(name = "usuario_id")
+    @Column(name = "usuario_id", insertable = false, updatable = false)
     private Integer usuarioId;
+
+    @ManyToOne(fetch = FetchType.EAGER) // Asegura que el usuario se cargue
+    @JoinColumn(name = "usuario_id") // Mapea a la columna 'usuario_id'
+    private Usuario usuario;
 
     @Column(name = "carrito_id")
     private Integer carritoId;
@@ -40,6 +44,14 @@ public class Pedido {
     private LocalDateTime creadoAt;
 
     // getters & setters
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     public Integer getIdPedido() {
         return idPedido;
