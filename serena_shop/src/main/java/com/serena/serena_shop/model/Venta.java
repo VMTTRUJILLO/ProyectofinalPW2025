@@ -2,6 +2,8 @@ package com.serena.serena_shop.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +31,9 @@ public class Venta {
 
     @Column(name = "id_metodo_pago")
     private Integer idMetodoPago;
+
+    @OneToMany(mappedBy = "idVenta", fetch = FetchType.EAGER)
+    private List<DetalleVenta> detallesVenta;
 
     // getters & setters
 

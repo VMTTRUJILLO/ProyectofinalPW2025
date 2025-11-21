@@ -17,6 +17,10 @@ public class DetalleVenta {
     @Column(name = "id_venta")
     private Integer idVenta;
 
+    @ManyToOne(fetch = FetchType.EAGER) // Asegura que el Producto se cargue con el detalle
+    @JoinColumn(name = "id_producto", insertable = false, updatable = false)
+    private Producto producto;
+
     @Column(name = "id_producto")
     private Integer idProducto;
 

@@ -4,10 +4,7 @@ import com.serena.serena_shop.model.Carrito;
 import com.serena.serena_shop.model.DetalleCarrito;
 import com.serena.serena_shop.model.Pedido;
 import com.serena.serena_shop.model.Usuario;
-import com.serena.serena_shop.repository.DetallecarritoRepository;
-import com.serena.serena_shop.repository.PedidoRepository;
-import com.serena.serena_shop.repository.UsuarioRepository;
-import com.serena.serena_shop.repository.carritoRepository;
+import com.serena.serena_shop.repository.*;
 import com.serena.serena_shop.service.CheckoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +31,9 @@ public class PedidoController {
 
     @Autowired
     private UsuarioRepository usuarioRepo;
+
+    @Autowired
+    private DetalleVentaRepository detalleVentaRepo;
 
     private final   CheckoutService checkoutService;
 
@@ -81,16 +81,32 @@ public class PedidoController {
         }
     }
 
-    // 1️⃣ Listar todos los pedidos
     @GetMapping
-    public List<Pedido> listarPedidos() {
-        return pedidoRepo.findAll();
+    public ResponseEntity<List<Pedido>> listarTodosPedidosAdmin() {
+        try {
+            System.out.println("=== Listando todos los pedidos para el Admin ===");
+
+            List<Pedido> pedidos = pedidoRepo.findAll();
+
+            if (pedidos.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            
+            return ResponseEntity.ok(pedidos);
+
+        } catch (Exception e) {
+            System.err.println("❌ Error al listar todos los pedidos (Admin): " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    //listar por usuario id usuario
-    @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<List<Pedido>> listarPedidosPorUsuario(@PathVariable Integer idUsuario) {
+    // 1️⃣ Listar todos los pedidos
+    @GetMapping("/usuario/detalle/{idUsuario}")
+    public ResponseEntity<List<Pedido>> listarPedidosConDetalle(@PathVariable Integer idUsuario) {
+
         List<Pedido> pedidos = pedidoRepo.findByUsuarioId(idUsuario);
+
         if (pedidos.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
