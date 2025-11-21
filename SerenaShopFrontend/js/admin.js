@@ -374,16 +374,16 @@ function verDetallePedido(id) {
 // ============== UTILIDADES ==============
 function obtenerNombreCategoria(id) {
     const categorias = {
-        1: 'Aretes', 2: 'Collares', 3: 'Pulseras',
-        4: 'Anillos', 5: 'Conjuntos', 6: 'Tobilleras', 7: 'Accesorios'
+        1: 'Aretes', 2: 'Earcuffs', 3: 'Pulseras',
+        4: 'Cadenas', 5: 'Chockers', 6: 'Tobilleras', 7: 'Anillos'
     };
     return categorias[id] || 'Sin categoría';
 }
 
 function obtenerIdCategoria(nombre) {
     const categorias = {
-        'Aretes': 1, 'Collares': 2, 'Pulseras': 3,
-        'Anillos': 4, 'Conjuntos': 5, 'Tobilleras': 6, 'Accesorios': 7
+        'Aretes': 1, 'Earcuffs': 2, 'Pulseras': 3,
+        'Cadenass': 4, 'Chockers': 5, 'Tobilleras': 6, 'Anillos': 7
     };
     return categorias[nombre] || '';
 }
