@@ -40,7 +40,7 @@ public class Pedido {
     private LocalDateTime creadoAt;
 
     // getters & setters
-    
+
 
     public Integer getIdPedido() {
         return idPedido;
