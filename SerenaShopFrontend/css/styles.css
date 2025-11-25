@@ -1,4 +1,4 @@
-/* Estilos personalizados para Serene Shop */
+/* Estilos personalizados para Serena Shop */
 
 :root {
     --primary-color: #d4a5a5;
@@ -81,7 +81,7 @@ body {
     border-color: var(--secondary-color);
 }
 
-/* Hero section (SE ELIMINÓ DE HTML, PERO SE CONSERVA EL ESTILO POR SI SE USA EN OTRAS PÁGINAS) */
+/* Hero section  */
 .hero {
     background: linear-gradient(135deg, var(--accent-color) 0%, #f0e5e5 100%);
     padding: 4rem 0;
@@ -93,7 +93,7 @@ body {
     font-weight: bold;
 }
 
-/* Footer (RESTAURADO) */
+/* Footer */
 footer {
     background-color: var(--text-dark);
     color: white;
@@ -151,15 +151,12 @@ footer a:hover {
 }
 
 .top-pre-header .header-link {
-    /* Hereda el color del texto de la barra */
     color: inherit; 
-    /* Elimina el subrayado que tienen por defecto los enlaces */
     text-decoration: none; 
     transition: color 0.3s;
 }
 
 .top-pre-header .header-link:hover {
-    /* Opcional: Oscurece el color al pasar el mouse */
     color: #b01a55; 
 }
 
@@ -170,11 +167,7 @@ footer a:hover {
 }
 
 
-/* ==================================== */
-/* === REGLAS AÑADIDAS PARA EL MOCKUP === */
-/* ==================================== */
-
-/* 1. Definir la animación de deslizamiento (movimiento) */
+/* Animación de parpadeo sutil */
 @keyframes subtle-blink {
     0%, 100% { 
         opacity: 1; 
@@ -182,30 +175,27 @@ footer a:hover {
     }
     50% { 
         opacity: 0.8; 
-        text-shadow: 0 0 5px #fff; /* Pequeño brillo blanco */
+        text-shadow: 0 0 5px #fff; 
     }
 }
 
 /* Barra de ofertas superior */
 .top-offer-bar {
-    background-color: #e91e63; /* Rosa fuerte del mockup */
+    background-color: #e91e63; 
     color: white;
     text-align: center;
     padding: 9px 0;
     font-size: 1.1rem;
-  /* Aplicar la animación */
-    animation: subtle-blink 3s infinite ease-in-out; /* Más lento y suave que el pulso */
+    animation: subtle-blink 3s infinite ease-in-out; 
 }
 
 .band-title-section {
-    /* Centra el contenedor principal */
     display: flex;
     justify-content: center;
-    margin: 50px auto !important; /* Espaciado generoso */
+    margin: 50px auto !important; 
 }
 
 .band-title {
-    /* Color de fuente del rosa fuerte (el mismo que la barra de ofertas) */
     color: var(--text-dark); 
     
     /* Fuente grande y pesada */
@@ -271,7 +261,6 @@ footer a:hover {
 .serena-logo img {
     max-width: 80%; /* Ajusta el tamaño */
     height: auto;
-    /* Se recomienda añadir la fuente 'Serenn_a20' al CSS si está disponible */
 }
 
 /* Título de Best Sellers */
@@ -330,12 +319,11 @@ footer a:hover {
 .top-pre-header {
     background-color: #f7e0e5; /* Rosa pálido similar al mockup */
     padding: 17px 0;
-    color: #e91e63; /* Color del texto (puede ser el rosa de la barra inferior) */
+    color: #e91e63; /* Rosa fuerte */
     font-size: 0.8rem;
 }
 
 .top-pre-header .header-text {
-    /* Si quieres el icono de la cámara, tendrás que usar una imagen o un icono de fuente aquí */
     padding-left: 20px;
     position: relative;
 }
